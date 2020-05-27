@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
     'DjangoUeditor',
 ]
@@ -57,13 +58,32 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     # 设置分页
-    # 'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.PageNumberPagination',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     # 'PAGE_SIZE':10,
-    'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.AutoSchema'
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
 }
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
+import datetime
+#有效期限
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+}
+APPEND_SLASH=False
+# 手机号码正则表达式
+REGEX_MOBILE = "^1[34658]\d{9}$|^147\d{8}$|^176\d{8}$"
+# 云片网 api_key
+APIKEY = 'a23fc1d18207513b656f4823fb2741d1'
 
-
-# 重载系统的用户，让UserProfile生效
+#重载系统的用户，让UserProfile生效
 AUTH_USER_MODEL = 'users.UserProfile'
 
 
