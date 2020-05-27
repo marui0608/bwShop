@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.goods.models import Goods,GoodsCategory
+from apps.goods.models import Goods,GoodsCategory,GoodsImage
 
 class CategorySerializer3(serializers.ModelSerializer):
     class Meta:
@@ -27,5 +27,19 @@ class GoodsSerializer(serializers.ModelSerializer):
         model = Goods
         fields = '__all__'
 
+# 轮播图
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ("image",)
 
 
+# 商品列表页
+class GoodsSerializer(serializers.ModelSerializer):
+    # 覆盖外键字段
+    category = CategorySerializer()
+    # images是数据库中设置related_name="images",把轮播嵌套出来
+    images = GoodsImageSerializer(many=True)
+    class Meta:
+        model = Goods
+        fields = "__all__"
