@@ -9,9 +9,11 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 
 from bwShop.settings import MEDIA_ROOT
-from apps.goods.views import GoodsListViewSet,CategoryViewSet
+from apps.goods.views import GoodsListViewSet,CategoryViewSet,BannerViewset,IndexCategoryViewset
 from apps.users.views import SmsCodeViewset,UserViewset
-from apps.user_operation.views import UserFavViewset,LeavingMessageViewset
+from apps.user_operation.views import UserFavViewset,LeavingMessageViewset,AddressViewset
+from apps.trade.views import ShoppingCartViewset,OrderViewset,AlipayView
+
 
 router = routers.DefaultRouter()
 router.register('goods',GoodsListViewSet)
@@ -20,8 +22,14 @@ router.register('code',SmsCodeViewset,basename='code')
 router.register('users',UserViewset,basename='users')
 router.register('userfavs',UserFavViewset,basename='userfavs')
 router.register('messages',LeavingMessageViewset,basename='messages')
+router.register('address',AddressViewset,basename='address')
+router.register('shopcarts',ShoppingCartViewset,basename='shopcarts')
+router.register('orders',OrderViewset,basename='orders')
+router.register('banners',BannerViewset,basename='banners')
+router.register('indexgoods',IndexCategoryViewset,basename='indexgoods')
 
 schema_view = get_schema_view(title='corejson')
+
 urlpatterns = [
     path('xadmin/', xadmin.site.urls),
     path('ueditor/',include('DjangoUeditor.urls')),
@@ -38,4 +46,6 @@ urlpatterns = [
     # 文档路由
     path('docs',include_docs_urls(title='DRF文档')),
     path('schema/',schema_view),
+    # 支付宝路由
+    path('alipay/return',AlipayView.as_view()),
 ]

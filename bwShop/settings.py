@@ -28,7 +28,7 @@ SECRET_KEY = ')l0f3d^$9zdz1g$p3#s*4homg3ot6488a*rcfd$_a3^$@ta!gs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -183,3 +183,7 @@ STATIC_URL = '/static/'
 # 上传图片
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+
+#支付宝相关的key
+private_key_path = os.path.join(BASE_DIR,'apps/trade/keys/private_2048.txt')
+ali_pub_key_path = os.path.join(BASE_DIR, 'apps/trade/keys/alipay_key_2048.txt')
